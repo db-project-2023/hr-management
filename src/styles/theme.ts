@@ -21,11 +21,11 @@ export const theme = extendTheme({
         content: {
             primary: '#454545',
             error: '#E85F4C',
-            description: '#D1D1D1',
+            description: '#8BAFB8',
             disabled: '#9C9C9C',
             pending: '#979797',
             success: '#69C091',
-            warning: '#FFB800'
+            warning: '#FFB800',
         }
     }
 })
