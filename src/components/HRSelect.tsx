@@ -4,21 +4,33 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
-  Input,
-  InputGroup,
-  InputProps,
+  Select,
+  SelectProps,
 } from "@chakra-ui/react";
 import { Typography } from "./Typography";
 
-export type HRInputType = InputProps & {
+type HRSelectOptionType = {
+  label: string;
+  value: string;
+};
+
+export type HRSelectType = SelectProps & {
   label?: string;
+  options: HRSelectOptionType[];
   helperText?: string;
   errorMessage?: string;
 };
 
-export const HRInput = (props: HRInputType) => {
-  const { label, helperText, errorMessage, isRequired, isInvalid, ...rest } =
-    props;
+export const HRSelect = (props: HRSelectType) => {
+  const {
+    label,
+    options,
+    helperText,
+    errorMessage,
+    isRequired,
+    isInvalid,
+    ...rest
+  } = props;
   return (
     <FormControl isRequired={isRequired} isInvalid={isInvalid} my={6}>
       {label && (
@@ -34,22 +46,26 @@ export const HRInput = (props: HRInputType) => {
           {label}
         </FormLabel>
       )}
-      <InputGroup>
-        <Input
-          borderRadius={3}
-          isRequired={isRequired}
-          isInvalid={isInvalid}
-          borderColor="border.item"
-          bg="background.primary"
-          _placeholder={{
-            color: "border.item",
-          }}
-          focusBorderColor="brand.secondary"
-          errorBorderColor="content.error"
-          color="content.primary"
-          {...rest}
-        />
-      </InputGroup>
+      <Select
+        borderRadius={3}
+        isRequired={isRequired}
+        isInvalid={isInvalid}
+        borderColor="border.item"
+        bg="background.primary"
+        _placeholder={{
+          color: "border.item",
+        }}
+        focusBorderColor="brand.secondary"
+        errorBorderColor="content.error"
+        color="content.primary"
+        {...rest}
+      >
+        {options.map((option) => (
+          <option value={option.value} key={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </Select>
       {isInvalid && errorMessage && (
         <FormErrorMessage color="content.error">
           {errorMessage}
