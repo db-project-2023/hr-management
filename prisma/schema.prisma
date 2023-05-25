@@ -13,3 +13,99 @@ model test_table {
   attr2   String @db.Text
   attr3   Int
 }
+
+model candidate {
+  candidateId     Int         @id @default(autoincrement())
+  firstName       String      @db.VarChar(50)
+  lastName        String      @db.VarChar(50)
+  previousSalary  Int?
+  expectedSalary  Int
+  candidateStatus String      @db.VarChar(10)
+  email           String      @db.Text
+  telephoneNumber String      @db.VarChar(10)
+  positionId      Int
+  position        position    @relation(fields: [positionId], references: [positionId], onUpdate: Restrict, map: "positionIdFK_candidate")
+  interview       interview[]
+  resume          resume[]
+
+  @@index([positionId], map: "positionIdFK_candidate")
+}
+
+model interview {
+  interviewId   Int           @id @default(autoincrement())
+  candidateId   Int
+  interviewDate DateTime      @db.DateTime(0)
+  status        String        @db.VarChar(10)
+  candidate     candidate     @relation(fields: [candidateId], references: [candidateId], onDelete: Cascade, map: "candidateIdFK_interview")
+  interviewer   interviewer[]
+  score         score[]
+
+  @@index([candidateId], map: "candidateIdFK_interview")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model interviewer {
+  interviewId Int
+  employeeId  Int
+  status      String    @db.VarChar(10)
+  comments    String    @db.Text
+  employee    employee  @relation(fields: [employeeId], references: [employeeId], onDelete: Cascade, map: "employeeIdFK_interviewer")
+  interview   interview @relation(fields: [interviewId], references: [interviewId], onDelete: Cascade, map: "interviewIdFK_interviewer")
+
+  @@id([interviewId, employeeId])
+  @@index([employeeId], map: "employeeIdFK_interviewer")
+  @@ignore
+}
+
+model resume {
+  resumeId    Int       @id @default(autoincrement())
+  candidateId Int
+  resume      Bytes     @db.Blob
+  candidate   candidate @relation(fields: [candidateId], references: [candidateId], onDelete: Cascade, map: "candidateIdFK_resume")
+
+  @@index([candidateId], map: "candidateIdFK_resume")
+}
+
+model employee {
+  employeeId  Int           @id @default(autoincrement())
+  interviewer interviewer[]
+  score       score[]
+}
+
+model position {
+  positionId     Int              @id @default(autoincrement())
+  candidate      candidate[]
+  position_skill position_skill[]
+}
+
+model position_skill {
+  skillName  String   @db.VarChar(20)
+  positionId Int
+  position   position @relation(fields: [positionId], references: [positionId], onDelete: Cascade, map: "positionIdFK")
+  skill      skill    @relation(fields: [skillName], references: [skillName], onDelete: Cascade, map: "skillNameFK")
+
+  @@id([skillName, positionId])
+  @@index([positionId], map: "positionIdFK")
+}
+
+model score {
+  interviewId Int
+  employeeId  Int
+  skillName   String    @db.VarChar(20)
+  score       Int
+  employee    employee  @relation(fields: [employeeId], references: [employeeId], onUpdate: Restrict, map: "employeeIdFK_score")
+  interview   interview @relation(fields: [interviewId], references: [interviewId], onDelete: Cascade, map: "interviewIdFK_score")
+  skill       skill     @relation(fields: [skillName], references: [skillName], onUpdate: Restrict, map: "skillNameFK_score")
+
+  @@id([interviewId, employeeId, skillName])
+  @@index([employeeId], map: "employeeIdFK_score")
+  @@index([skillName], map: "skillNameFK_score")
+}
+
+model skill {
+  skillName        String           @id @db.VarChar(20)
+  skillDescription String           @db.Text
+  type             String           @db.VarChar(10)
+  position_skill   position_skill[]
+  score            score[]
+}
