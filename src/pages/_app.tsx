@@ -22,7 +22,15 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <HRSidebar items={sidebarItems} />
-      <Box w="82vw" h="100vh" pos="absolute" top={0} right={0} p={16}>
+      <Box
+        w="82vw"
+        h="100vh"
+        pos="absolute"
+        top={0}
+        right={0}
+        p={16}
+        overflow="scroll"
+      >
         <Component {...pageProps} />
       </Box>
     </ChakraProvider>
