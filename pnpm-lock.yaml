@@ -13,6 +13,9 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.10.8
     version: 11.10.8(@emotion/react@11.10.8)(@types/react@18.2.0)(react@18.2.0)
+  '@fontsource/inter':
+    specifier: ^5.0.1
+    version: 5.0.1
   '@prisma/client':
     specifier: 4.13.0
     version: 4.13.0(prisma@4.13.0)
@@ -1353,6 +1356,10 @@ packages:
   /@eslint/js@8.39.0:
     resolution: {integrity: sha512-kf9RB0Fg7NZfap83B3QOqOGg9QmD9yBudqQXzzOtn3i4y7ZUXe5ONeW34Gwi+TxhH4mvj72R1Zc300KUMa9Bng==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    dev: false
+
+  /@fontsource/inter@5.0.1:
+    resolution: {integrity: sha512-jezFhHp0HcVy2t6M6r89EcxkT30vx0ofGauveQWQ81j70N/wNDYs4zI+sedeend6zF9GXIEqpOTO2D1k7VQX4w==}
     dev: false
 
   /@humanwhocodes/config-array@0.11.8:

@@ -1,8 +1,9 @@
 import { HRSidebar, SidebarItemType } from "@/components/HRSidebar";
 import { theme } from "@/styles/theme";
 import { AddIcon, BellIcon, InfoIcon, InfoOutlineIcon } from "@chakra-ui/icons";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
+import "@fontsource/inter";
 
 const sidebarItems: SidebarItemType[] = [
   {
@@ -21,7 +22,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <HRSidebar items={sidebarItems} />
-      <Component {...pageProps} />
+      <Box w="82vw" h="100vh" pos="absolute" top={0} right={0} p={16}>
+        <Component {...pageProps} />
+      </Box>
     </ChakraProvider>
   );
 }
