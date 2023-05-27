@@ -12,23 +12,29 @@ export const typographyStyles: Record<HeadingType | TextType, TextProps> = {
   h1: {
     fontSize: "24px",
     fontWeight: "semibold",
+    color: "content.primary",
   },
   h2: {
     fontSize: "20px",
     fontWeight: "semibold",
+    color: "content.primary",
   },
   h3: {
     fontSize: "16px",
     fontWeight: "semibold",
+    color: "content.primary",
   },
   body1: {
     fontSize: "24px",
+    color: "content.primary",
   },
   body2: {
     fontSize: "20px",
+    color: "content.primary",
   },
   body3: {
     fontSize: "16px",
+    color: "content.primary",
   },
   description: {
     fontSize: "12px",

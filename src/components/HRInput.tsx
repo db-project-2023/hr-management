@@ -20,7 +20,7 @@ export const HRInput = (props: HRInputType) => {
   const { label, helperText, errorMessage, isRequired, isInvalid, ...rest } =
     props;
   return (
-    <FormControl isRequired={isRequired} isInvalid={isInvalid} my={6}>
+    <FormControl isRequired={isRequired} isInvalid={isInvalid} mt={6}>
       {label && (
         <FormLabel
           fontWeight="normal"
