@@ -27,6 +27,7 @@ export const HRSidebar = (props: HRSidebarType) => {
       bg="background.primary"
       boxShadow={boxShadow}
       p={6}
+      zIndex={99}
       justifyContent="space-between"
     >
       <Link as={NextLink} href="/" _hover={{ textDecor: "none" }}>

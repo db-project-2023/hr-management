@@ -4,6 +4,7 @@ import { HRSelect } from "@/components/HRSelect";
 import { Typography } from "@/components/Typography";
 import { Flex } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import Prisma from "../../libs/prisma";
 
 export const getServerSideProps: GetServerSideProps = async () => {
@@ -30,6 +31,8 @@ const EmployeeRegisterForm = ({ provinces, positions }) => {
       value: position.positionId,
     };
   });
+
+  const router = useRouter();
   return (
     <Flex flexDir="column" gap={8}>
       <Typography variant="h1">Employee Registration</Typography>
@@ -79,7 +82,9 @@ const EmployeeRegisterForm = ({ provinces, positions }) => {
         </Flex>
       </Flex>
       <Flex gap={4} w="100%" justify="flex-end">
-        <HRButton variant="outline">Cancel</HRButton>
+        <HRButton variant="outline" onClick={() => router.push("/")}>
+          Cancel
+        </HRButton>
         <HRButton>Submit</HRButton>
       </Flex>
     </Flex>

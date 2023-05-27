@@ -30,6 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
         right={0}
         p={16}
         overflow="scroll"
+        bg="background.secondary"
       >
         <Component {...pageProps} />
       </Box>
