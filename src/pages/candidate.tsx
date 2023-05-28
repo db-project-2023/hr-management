@@ -7,7 +7,14 @@ import { Typography } from "@/components/Typography";
 import { EmailIcon } from "@chakra-ui/icons";
 import { Flex, Tag, TagLabel } from "@chakra-ui/react";
 
-const Company = () => {
+const reviewerOptions = reviewers.map((reviewer) => {
+  return {
+    label: reviewer.reviewerId,
+    value: reviewer.reviewerId,
+  };
+});
+
+const candidate = () => {
   return (
     <Flex flexDir="column" gap={8}>
       <Flex gap={8} flexWrap="wrap" align="center" width="100%">
@@ -43,19 +50,47 @@ const Company = () => {
         </Flex>
       </Flex>
       <Flex flexDir="column" gap={4}>
-        <Typography variant="h2">Resume Review</Typography>
+        <Typography variant="h2">Resume/CV Round</Typography>
       </Flex>
       <Flex flexDir="column" gap={4}>
         <Typography variant="h3">Reviewers</Typography>
-        <Flex flexDir="column" gap={4}>
-          <Typography>Reviewer 1</Typography>
+        <Flex gap={20} flexWrap="wrap">
+          <Flex flexDir="column" gap={2} flex={1}>
+            <Typography>Reviewer 1</Typography>
+            <HRSelect
+              label="Reviwer"
+              options={reviewerOptions}
+              placeholder="Select Department"
+              isRequired
+            />
+          </Flex>
+          <Flex flexDir="column" gap={2} flex={2}>
+            <Typography>Status</Typography>
+            <Typography variant="h2" color="#69C091">
+              Passed
+            </Typography>
+          </Flex>
         </Flex>
-        <Flex flexDir="column" gap={4}>
-          <Typography>Reviewer 2</Typography>
+        <Flex gap={20} flexWrap="wrap">
+          <Flex flexDir="column" gap={2} flex={1}>
+            <Typography>Reviewer 2</Typography>
+            <HRSelect
+              label="Reviwer"
+              options={reviewerOptions}
+              placeholder="Select Department"
+              isRequired
+            />
+          </Flex>
+          <Flex flexDir="column" gap={2} flex={2}>
+            <Typography>Status</Typography>
+            <Typography variant="h2" color="#69C091">
+              Passed
+            </Typography>
+          </Flex>
         </Flex>
       </Flex>
     </Flex>
   );
 };
 
-export default Company;
+export default candidate;
