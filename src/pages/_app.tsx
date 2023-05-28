@@ -12,6 +12,11 @@ const sidebarItems: SidebarItemType[] = [
     icon: <AddIcon />,
   },
   {
+    name: "Candidate",
+    path: "/candidate",
+    icon: <AddIcon />,
+  },
+  {
     name: "Company",
     path: "/company",
     icon: <InfoIcon boxSize="24px" />,
