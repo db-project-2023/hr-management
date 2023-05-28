@@ -72,12 +72,10 @@ const Apply = ({ positions }) => {
 
   const positionOptions = positions?.map((position) => {
     return {
-      label: position.positionId,
-      value: position.positionId,
+      label: position.positionName,
+      value: position.positionId.toString(),
     };
   });
-
-  console.log(success);
 
   return (
     <Flex bg="background.secondary" w="100vw" h="100vh">
