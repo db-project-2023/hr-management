@@ -5,17 +5,52 @@ import { Box, ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import "@fontsource/inter";
 import { useRouter } from "next/router";
+import { HRSelect } from "@/components/HRSelect";
+import {
+  BsPersonFillAdd,
+  BsFillBuildingFill,
+  BsFillClipboardPlusFill,
+  BsPersonWorkspace,
+  BsPeopleFill,
+} from "react-icons/bs";
+import { HiDocumentReport } from "react-icons/hi";
+import { TbReport } from "react-icons/tb";
 
 const sidebarItems: SidebarItemType[] = [
   {
     name: "Register Employee",
     path: "/employee_register",
-    icon: <AddIcon />,
+    icon: <BsPersonFillAdd size="24px" />,
   },
   {
-    name: "Company",
+    name: "Leave Request",
+    path: "/leave-request",
+    icon: <BsFillClipboardPlusFill size="24px" />,
+  },
+  {
+    name: "Create Position",
+    path: "/create-position",
+    icon: <BsPersonWorkspace size="24px" />,
+  },
+  {
+    name: "Candidates",
+    path: "/candidates",
+    icon: <BsPeopleFill size="24px" />,
+  },
+  {
+    name: "Leave Report",
+    path: "/department-leave-report",
+    icon: <TbReport size="24px" />,
+  },
+  {
+    name: "Hiring Report",
+    path: "/hiring-report",
+    icon: <HiDocumentReport size="24px" />,
+  },
+  {
+    name: "Company Report",
     path: "/company",
-    icon: <InfoIcon boxSize="24px" />,
+    icon: <BsFillBuildingFill size="24px" />,
   },
 ];
 
