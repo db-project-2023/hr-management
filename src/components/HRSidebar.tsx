@@ -1,5 +1,5 @@
 import { boxShadow } from "@/styles/boxShadow";
-import { Flex, HStack, Link, Stack } from "@chakra-ui/react";
+import { Box, Flex, HStack, Link, Stack } from "@chakra-ui/react";
 import { HRAvatarInfo } from "./HRAvatarInfo";
 import { Typography } from "./Typography";
 import NextLink from "next/link";
@@ -53,7 +53,8 @@ export const HRSidebar = (props: HRSidebarType) => {
           </Link>
         ))}
       </Stack>
-      <HRAvatarInfo name="Pichy" description="UI Engineer" />
+      {/*<HRAvatarInfo name="Pichy" description="UI Engineer" />*/}
+      <Box></Box>
     </Stack>
   );
 };

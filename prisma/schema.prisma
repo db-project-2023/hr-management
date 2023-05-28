@@ -7,27 +7,77 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model address {
+  employeeId  Int      @id
+  houseNumber String   @db.Text
+  street      String   @db.Text
+  province    String   @db.Text
+  zipcode     String   @db.Text
+  employee    employee @relation(fields: [employeeId], references: [employeeId], onDelete: Cascade, map: "employeeIdFK_address")
+
+  @@index([employeeId], map: "employeeIdFK_reviewer")
+}
+
 model candidate {
-  candidateId     Int         @id @default(autoincrement())
-  firstName       String      @db.VarChar(50)
-  lastName        String      @db.VarChar(50)
-  previousSalary  Int?
-  expectedSalary  Int
-  candidateStatus String      @db.VarChar(10)
-  email           String      @db.Text
-  telephoneNumber String      @db.VarChar(10)
-  positionId      Int
-  position        position    @relation(fields: [positionId], references: [positionId], onUpdate: Restrict, map: "positionIdFK_candidate")
-  interview       interview[]
-  resume          resume[]
+  candidateId                                  Int         @id @default(autoincrement())
+  firstName                                    String      @unique(map: "firstNameINDEX_candidate") @db.VarChar(50)
+  lastName                                     String      @unique(map: "lastNameINDEX_candidate") @db.VarChar(50)
+  previousSalary                               Int?
+  expectedSalary                               Int
+  candidateStatus                              String      @db.VarChar(10)
+  email                                        String      @db.Text
+  telephoneNumber                              String      @unique(map: "telephoneNumberINDEX_candidate") @db.VarChar(10)
+  positionId                                   Int
+  position                                     position    @relation(fields: [positionId], references: [positionId], onUpdate: Restrict, map: "positionIdFK_candidate")
+  employee_employee_candidateIdTocandidate     employee[]  @relation("employee_candidateIdTocandidate")
+  employee_employee_firstNameTocandidate       employee[]  @relation("employee_firstNameTocandidate")
+  employee_employee_lastNameTocandidate        employee[]  @relation("employee_lastNameTocandidate")
+  employee_employee_telephoneNumberTocandidate employee[]  @relation("employee_telephoneNumberTocandidate")
+  interview                                    interview[]
+  resume                                       resume[]
+  reviewer                                     reviewer[]
 
   @@index([positionId], map: "positionIdFK_candidate")
 }
 
+model department {
+  departmentId   Int        @id @default(autoincrement())
+  departmentName String     @db.Text
+  employee       employee[]
+  position       position[]
+}
+
 model employee {
-  employeeId  Int           @id @default(autoincrement())
-  interviewer interviewer[]
-  score       score[]
+  employeeId                                    Int             @id @default(autoincrement())
+  candidateId                                   Int
+  firstName                                     String          @db.VarChar(50)
+  lastName                                      String          @db.VarChar(50)
+  salary                                        Int
+  startDate                                     DateTime        @db.DateTime(0)
+  positionId                                    Int
+  telephoneNumber                               String          @db.VarChar(10)
+  departmentId                                  Int
+  photo                                         Bytes           @db.Blob
+  email                                         String          @db.Text
+  address                                       address?
+  candidate_employee_candidateIdTocandidate     candidate       @relation("employee_candidateIdTocandidate", fields: [candidateId], references: [candidateId], onDelete: Cascade, map: "candidateIdFK_employee")
+  department                                    department      @relation(fields: [departmentId], references: [departmentId], onDelete: Cascade, map: "departmentIdFK_employee")
+  candidate_employee_firstNameTocandidate       candidate       @relation("employee_firstNameTocandidate", fields: [firstName], references: [firstName], onDelete: Cascade, map: "firstNameFK_employee")
+  candidate_employee_lastNameTocandidate        candidate       @relation("employee_lastNameTocandidate", fields: [lastName], references: [lastName], onDelete: Cascade, map: "lastNameFK_employee")
+  position                                      position        @relation(fields: [positionId], references: [positionId], onDelete: Cascade, map: "positionIdFK_employee")
+  candidate_employee_telephoneNumberTocandidate candidate       @relation("employee_telephoneNumberTocandidate", fields: [telephoneNumber], references: [telephoneNumber], onDelete: Cascade, map: "telephoneNumberFK_employee")
+  interviewer                                   interviewer[]
+  leave                                         leave[]
+  leave_request                                 leave_request[]
+  reviewer                                      reviewer[]
+  score                                         score[]
+
+  @@index([candidateId], map: "candidateIdFK_employee")
+  @@index([departmentId], map: "departmentIdFK_employee")
+  @@index([firstName], map: "firstNameFK_employee")
+  @@index([lastName], map: "lastNameFK_employee")
+  @@index([positionId], map: "positionIdFK_employee")
+  @@index([telephoneNumber], map: "telephoneNumberFK_employee")
 }
 
 model interview {
@@ -54,10 +104,44 @@ model interviewer {
   @@index([employeeId], map: "employeeIdFK_interviewer")
 }
 
+model leave {
+  year       Int      @db.Year
+  employeeId Int
+  leaveType  String   @db.VarChar(10)
+  days       Int
+  employee   employee @relation(fields: [employeeId], references: [employeeId], onDelete: Cascade, map: "employeeIdFK_leave")
+
+  @@id([year, employeeId])
+  @@index([employeeId], map: "employeeIdFK_leave")
+}
+
+model leave_request {
+  leaveRequestId Int      @id @default(autoincrement())
+  employeeId     Int
+  leaveType      String   @db.VarChar(10)
+  startDate      DateTime @db.DateTime(0)
+  endDate        DateTime @db.DateTime(0)
+  leaveFile      Bytes    @db.Blob
+  status         String   @db.VarChar(10)
+  employee       employee @relation(fields: [employeeId], references: [employeeId], onDelete: Cascade, map: "employeeIdFK_leave_request")
+
+  @@index([employeeId], map: "employeeIdFK_leave_request")
+}
+
 model position {
-  positionId     Int              @id @default(autoincrement())
-  candidate      candidate[]
-  position_skill position_skill[]
+  positionId           Int              @id @default(autoincrement())
+  departmentId         Int
+  status               String           @db.VarChar(10)
+  noOfRequiredEmployee Int
+  salaryRangeHigh      Int
+  salaryRangeLow       Int
+  positionDescription  String           @db.Text
+  candidate            candidate[]
+  employee             employee[]
+  department           department       @relation(fields: [departmentId], references: [departmentId], onDelete: Cascade, map: "departmentIdFK_position")
+  position_skill       position_skill[]
+
+  @@index([departmentId], map: "departmentIdFK_position")
 }
 
 model position_skill {
@@ -77,6 +161,19 @@ model resume {
   candidate   candidate @relation(fields: [candidateId], references: [candidateId], onDelete: Cascade, map: "candidateIdFK_resume")
 
   @@index([candidateId], map: "candidateIdFK_resume")
+}
+
+model reviewer {
+  candidateId Int
+  employeeId  Int
+  status      String    @db.VarChar(10)
+  comments    String    @db.Text
+  candidate   candidate @relation(fields: [candidateId], references: [candidateId], onDelete: Cascade, map: "candidateIdFK_reviewer")
+  employee    employee  @relation(fields: [employeeId], references: [employeeId], onDelete: Cascade, map: "employeeIdFK_reviewer")
+
+  @@id([candidateId, employeeId])
+  @@index([candidateId], map: "candidateIdFK_reviewer")
+  @@index([employeeId], map: "employeeIdFK_reviewer")
 }
 
 model score {
