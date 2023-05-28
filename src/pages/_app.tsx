@@ -15,6 +15,7 @@ import {
 } from "react-icons/bs";
 import { HiDocumentReport } from "react-icons/hi";
 import { TbReport } from "react-icons/tb";
+import { AiOutlineFieldTime } from "react-icons/ai";
 
 const sidebarItems: SidebarItemType[] = [
   {
@@ -38,7 +39,12 @@ const sidebarItems: SidebarItemType[] = [
     icon: <BsPeopleFill size="24px" />,
   },
   {
-    name: "Leave Report",
+    name: "My Leave Report",
+    path: "/department-leave-report",
+    icon: <AiOutlineFieldTime size="24px" />,
+  },
+  {
+    name: "All Leave Report",
     path: "/department-leave-report",
     icon: <TbReport size="24px" />,
   },
