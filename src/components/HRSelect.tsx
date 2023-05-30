@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Typography } from "./Typography";
 
-type HRSelectOptionType = {
+export type HRSelectOptionType = {
   label: string;
   value: string;
 };

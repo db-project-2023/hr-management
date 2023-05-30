@@ -1,26 +1,50 @@
 import { HRButton } from "@/components/HRButton";
 import { HRInput } from "@/components/HRInput";
+import { HRSelect } from "@/components/HRSelect";
 import { Typography } from "@/components/Typography";
 import { Heading, Stack, FormLabel, FormControl, Flex } from "@chakra-ui/react";
 import { Radio, RadioGroup } from "@chakra-ui/react";
+import { employee } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Prisma from "../../libs/prisma";
 
-const LeaveRequest = () => {
+export const getStaticProps = async () => {
+  const employees = await Prisma.employee.findMany({});
+  return {
+    props: {
+      employees: employees.map((e) => ({
+        employeeId: e.employeeId,
+        firstName: e.firstName,
+        lastName: e.lastName,
+      })),
+    },
+  };
+};
+const LeaveRequest = ({ employees }: { employees: employee[] }) => {
   const router = useRouter();
   const [data, setData] = useState({
     leaveType: "sick",
-    leaveDate: "",
+    startDate: "",
+    endDate: "",
     attachement: {},
+    employeeId: "",
   });
 
-  const isValid = data.leaveDate;
+  const employeesOptions = employees.map((e) => ({
+    label: `${e.firstName} ${e.lastName}`,
+    value: e.employeeId,
+  }));
+
+  const isValid = data.startDate && data.endDate;
 
   async function handleSubmit() {
-    fetch("api/addCandidate", {
+    fetch("api/requestLeave", {
       body: JSON.stringify({
         leaveType: data.leaveType,
-        leaveDate: data.leaveDate,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        employeeId: data.employeeId,
         attachment: data.attachement,
       }),
       headers: {
@@ -65,13 +89,28 @@ const LeaveRequest = () => {
           </RadioGroup>
         </FormLabel>
       </FormControl>
+      <HRSelect
+        label="Employee"
+        options={employeesOptions}
+        placeholder="Select Employee"
+        onChange={(e) =>
+          setData((prev) => ({ ...prev, employeeId: e.target.value }))
+        }
+      />
       <HRInput
-        label="Leave Date"
+        label="Start Date"
         type="date"
         isRequired
-        placeholder="Date"
         onChange={(e) => {
-          setData((prev) => ({ ...prev, leaveDate: e.target.value }));
+          setData((prev) => ({ ...prev, startDate: e.target.value }));
+        }}
+      />
+      <HRInput
+        label="End Date"
+        type="date"
+        isRequired
+        onChange={(e) => {
+          setData((prev) => ({ ...prev, endDate: e.target.value }));
         }}
       />
       <HRInput
@@ -83,7 +122,7 @@ const LeaveRequest = () => {
         }}
       />
       <Flex justify="flex-end" w="100%">
-        <HRButton type="submit" isDisabled={!isValid}>
+        <HRButton type="submit" isDisabled={!isValid} onClick={handleSubmit}>
           Submit
         </HRButton>
       </Flex>
