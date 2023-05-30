@@ -34,38 +34,36 @@ const Company = () => {
           rows={[
             [
               <Flex key="position" flexDir="column">
-                <Typography variant="h3">Marketing</Typography>
-                <Typography variant="description">Business</Typography>
+                <Typography variant="h3">Engineering</Typography>
               </Flex>,
               <Typography key="employed" fontSize="2xl">
-                20
+                2
               </Typography>,
               <Typography key="employed" fontSize="2xl">
-                -
+                8
               </Typography>,
               <Typography key="employed" fontSize="2xl">
-                -
+                1
               </Typography>,
               <Typography key="employed" fontSize="2xl">
-                -
+                Underemployed
               </Typography>,
             ],
             [
               <Flex key="position" flexDir="column">
                 <Typography variant="h3">Marketing</Typography>
-                <Typography variant="description">Business</Typography>
               </Flex>,
               <Typography key="employed" fontSize="2xl">
-                20
+                1
+              </Typography>,
+              <Typography key="employed" fontSize="2xl">
+                4
               </Typography>,
               <Typography key="employed" fontSize="2xl">
                 -
               </Typography>,
               <Typography key="employed" fontSize="2xl">
-                -
-              </Typography>,
-              <Typography key="employed" fontSize="2xl">
-                -
+                Underemployed
               </Typography>,
             ],
           ]}

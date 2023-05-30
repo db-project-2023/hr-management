@@ -39,8 +39,8 @@ const sidebarItems: SidebarItemType[] = [
     icon: <BsPeopleFill size="24px" />,
   },
   {
-    name: "My Leave Report",
-    path: "/department-leave-report",
+    name: "Leave Report",
+    path: "/employee-leave-report",
     icon: <AiOutlineFieldTime size="24px" />,
   },
   {

@@ -60,14 +60,6 @@ export default async function handler(
                         ]
                     }
                 },
-                address: {
-                    create: {
-                        houseNumber,
-                        street,
-                        province,
-                        zipcode: zipCode
-                    }
-                }
             }
         })
         res.status(200).json({ message: "Success" })

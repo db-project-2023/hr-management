@@ -112,6 +112,10 @@ const EmployeeRegisterForm = ({
         telephoneNumber: data.telephoneNumber,
         email: data.email,
         departmentId: data.department,
+        houseNumber: data.houseNumber,
+        street: data.street,
+        province: data.province,
+        zipCode: data.zipCode,
       }),
       headers: {
         "Content-Type": "application/json",
